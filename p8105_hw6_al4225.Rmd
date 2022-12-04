@@ -28,3 +28,11 @@ scale_fill_discrete = scale_fill_viridis_d
 ```
 
 
+## Problem 2
+### Raw data
+```{r}
+homicide_data = read_csv("./data/homicide-data.csv",
+                col_names = TRUE) %>%
+  janitor::clean_names() 
+homicide_data
+```
