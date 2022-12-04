@@ -176,3 +176,23 @@ birthweight_data %>%
   nrow()
 ```
 **Discriptions**: There are `r nrow(birthweight_data)` observations and `r ncol(birthweight_data)` variables in this cleaned dataset. There is no missing data at all. 
+
+### Regression
+Propose a regression model for birthweight. This model may be based on a hypothesized structure for the factors that underly birthweight, on a data-driven model-building process, or a combination of the two. Describe your modeling process.     
+
+
+According to researches, we have the following information about underly birthweight.        
+1.Age: Mother at the age of 15 or younger or 35 or older brings complications and birth defects.      
+2.Weight: Mothers' low weight and insufficient nutrition before delivering can contribute to the low weight of newborns.     
+3.Race: It is proven that black women are more likely to give birth to a child who has a low birth weight.    
+4.Smoke: Babies of mothers who are exposed to cigarettes are more likely to have low birthweight.     
+5.fincome: Mothers of lower socioeconomic status are also more likely to have poorer pregnancy nutrition, inadequate prenatal care, and pregnancy complications — all factors that can contribute to low birthweight.     
+
+
+So I will choose momage(mother’s age at delivery (years)), delwt(mother’s weight at delivery (pounds)),  smoken(average number of cigarettes smoked per day during pregnancy), fincome(family monthly income (in hundreds, rounded)), mrace: mother’s race (1 = White, 2 = Black, 3 = Asian, 4 = Puerto Rican, 8 = Other) as predictors. In this model, we just consider the main effects.
+
+```{r}
+bwt = lm(bwt ~ momage + delwt + mrace + smoken + fincome, data = birthweight_data)
+summary(bwt)
+```
+
