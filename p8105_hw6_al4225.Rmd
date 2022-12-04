@@ -155,3 +155,24 @@ results_cities %>%
         plot.title = element_text(hjust = 0.5))
 results_cities_plot
 ```
+
+
+## Problem3
+### Raw data
+Load and clean the data for regression analysis (i.e. convert numeric to factor where appropriate, check for missing data, etc.).
+```{r}
+birthweight_data = read_csv("./data/birthweight.csv",
+                col_names = TRUE) %>%
+  janitor::clean_names() %>%
+  mutate(babysex = as.factor(babysex),
+         frace = as.factor(frace),
+         malform = as.factor(malform),
+         mrace = as.factor(mrace))
+birthweight_data
+nrow(birthweight_data)
+
+birthweight_data %>%
+  drop_na() %>%
+  nrow()
+```
+**Discriptions**: There are `r nrow(birthweight_data)` observations and `r ncol(birthweight_data)` variables in this cleaned dataset. There is no missing data at all. 
