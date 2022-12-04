@@ -225,3 +225,14 @@ birthweight_data %>%
         plot.title = element_text(hjust = 0.5))
 residual_plot
 ```
+
+### Two other models
+One using length at birth and gestational age as predictors (main effects only).     
+One using head circumference, length, sex, and all interactions (including the three-way interaction) between these.
+```{r}
+model1 = lm(bwt ~ blength + gaweeks, data = birthweight_data)
+model2 = lm(bwt ~ bhead + blength + babysex + bhead*blength + bhead*babysex + blength*babysex + bhead*blength*babysex, data = birthweight_data)
+
+summary(model1)
+summary(model2)
+```
