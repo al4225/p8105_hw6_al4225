@@ -55,7 +55,7 @@ homicide
 ```
 
 ### Logistic regression for Baltimore, MD
-For the city of Baltimore, MD, use the glm function to fit a logistic regression with resolved vs unresolved as the outcome and victim age, sex and race as predictors. Save the output of glm as an R object;
+For the city of Baltimore, MD, use the glm function to fit a logistic regression with resolved vs unresolved as the outcome and victim age, sex and race as predictors. 
 ```{r}
 Baltimore = 
 homicide %>%
@@ -92,3 +92,8 @@ glm %>%
 exp(confint(glm))
 ```
 
+### Save result as .RData
+Save the output of glm as an R object;
+```{r}
+save(glm, file = "test/glm_baltimore_result.RData")
+```
