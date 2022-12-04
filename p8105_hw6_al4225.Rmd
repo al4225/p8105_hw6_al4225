@@ -236,3 +236,26 @@ model2 = lm(bwt ~ bhead + blength + babysex + bhead*blength + bhead*babysex + bl
 summary(model1)
 summary(model2)
 ```
+
+### Comparison
+Make this comparison in terms of the cross-validated prediction error; use crossv_mc and functions in purrr as appropriate.    
+The RMSEs are suggestive that the two other models work better than the first model bwt, and that the model2 is better than the model1.
+```{r}
+#Compute root mean squared errors (RMSEs) for each model.
+rmse(bwt, birthweight_data)
+rmse(model1, birthweight_data)
+rmse(model2, birthweight_data)
+
+#CV
+cv_df = 
+  crossv_mc(birthweight_data, 100) %>%
+  mutate(
+    bwt  = map(train, ~lm(bwt ~ momage + delwt + mrace + smoken + fincome, data = .x)),
+    model1  = map(train, ~lm(bwt ~ blength + gaweeks, data = .x)),
+    model2  = map(train, ~lm(bwt ~ bhead + blength + babysex + bhead*blength + bhead*babysex + blength*babysex + bhead*blength*babysex, , data = .x))) %>% 
+  mutate(
+    rmse_bwt = map2_dbl(bwt, test, ~rmse(model = .x, data = .y)),
+    rmse_model1 = map2_dbl(model1, test, ~rmse(model = .x, data = .y)),
+    rmse_model2 = map2_dbl(model2, test, ~rmse(model = .x, data = .y)))
+
+```
