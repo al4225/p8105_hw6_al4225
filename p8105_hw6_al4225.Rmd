@@ -9,6 +9,7 @@ output: github_document
 library(tidyverse)
 library(broom)
 library(dplyr)
+library(modelr)
 knitr::opts_chunk$set(
   fig.width = 7,
   fig.asp = .6,
@@ -25,3 +26,5 @@ options(
 scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
+
+
