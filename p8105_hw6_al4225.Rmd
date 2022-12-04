@@ -42,15 +42,16 @@ Create a city_state variable (e.g. “Baltimore, MD”), and a binary variable i
 ```{r}
 homicide = 
   homicide_data %>%
+  drop_na() %>%
   mutate(
     city_state = str_c(city, ", ", state)) %>%
   mutate(disposition_situation = ifelse(disposition %in% c("Closed without arrest", "Open/No arrest"), "unsolved", "solved"),
-         #disposition_situation = as.factor(disposition_situation)
          ) %>%
-
   filter(!city_state %in% c("Dallas, TX", "Phoenix, AZ", "Kansas City, MO", "Tulsa, AL"), 
-         victim_race %in% c("White", "Black")) %>%
-  mutate(victim_age = as.numeric(victim_age))
+         victim_race %in% c("White", "Black"),
+         !victim_age == "Unknown") %>%
+  mutate(victim_age = as.numeric(victim_age)) 
+  
 homicide
 ```
 
