@@ -201,3 +201,27 @@ summary(bwt)
 bwt %>%
   broom::tidy()
 ```
+
+### Plots
+Show a plot of model residuals against fitted values – use `add_predictions` and `add_residuals` in making this plot.    
+**Description**: The residual-fitted values plot reflects the normality of the dots. The dots are randomly scattered around the line y=0, the dots seem like symmetric. So we can assume the linear regression model has residuals with the normal distribution.
+```{r residual_plot}
+residual_plot = 
+birthweight_data %>% 
+  modelr::add_residuals(bwt) %>%
+  modelr::add_predictions(bwt) %>% 
+  ggplot(aes(x = pred, y = resid)) + 
+  geom_point(alpha = 0.5) +
+  geom_smooth(se = F, color = "red", method = "lm") +
+  theme_bw() +
+  labs(
+    title = "Model residuals against fitted values",
+    x = "Pred",
+    y = "Pesid",
+    caption = "Data consists of roughly 4000 children "
+  ) +
+  theme(legend.position = "bottom") +
+  theme(axis.text.x = element_text(hjust = 1, vjust = .5),
+        plot.title = element_text(hjust = 0.5))
+residual_plot
+```
