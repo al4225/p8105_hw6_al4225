@@ -110,3 +110,21 @@ all_cities =
   select(disposition_situation, victim_age, victim_race, victim_sex)
 all_cities
 ```
+
+```{r}
+results_cities = 
+  all_cities %>% 
+  nest(data = -city_state) %>%
+  mutate(
+    glm_cities = map(.x = data,
+                      ~glm(disposition_situation ~ victim_age + victim_race + victim_sex, data = .x, family = binomial(link = "logit"))),
+    tidy_tests = map(.x = glm_cities, ~broom::tidy(.x))
+  ) %>%
+  select(city_state, tidy_tests) %>% 
+  unnest(tidy_tests) %>% 
+  mutate(OR = exp(estimate),
+         conf.low = exp(estimate - 1.96 * std.error),
+         conf.high = exp(estimate + 1.96 * std.error)) %>%
+  select(term, log_OR = estimate, OR, p.value,  conf.low, conf.high) 
+results_cities
+```
