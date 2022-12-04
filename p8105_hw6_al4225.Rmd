@@ -71,3 +71,24 @@ glm = glm(Baltimore$disposition_situation ~ Baltimore$victim_age + Baltimore$vic
 summary(glm)
 
 ```
+
+### Odds ratio
+Apply the broom::tidy to this object; and obtain the estimate and confidence interval of the adjusted odds ratio for solving homicides comparing male victims to female victims keeping all other variables fixed.   
+
+**Discription**: For male and female victims, OR = 0.426 < 1 and is included in the confidence interval. Sex and solving homicides are negative related which means men(1) victims tend to have unsolved homicides. The OR of men victims whose homicides were solved is 0.426 times than women victims. So homicides in which the victim is male are significantly less like to be resolved than those in which the victim is female.
+```{r}
+glm %>%
+  broom::tidy()
+
+glm %>%
+  broom::tidy() %>%
+  mutate(OR = exp(estimate),
+         conf.low = exp(estimate - 1.96 * std.error),
+         conf.high = exp(estimate + 1.96 * std.error)) %>%
+  select(term, log_OR = estimate, OR, p.value, conf.low, conf.high) %>% 
+  knitr::kable(digits = 3)
+
+#confidence interval of OR--all include estimated value
+exp(confint(glm))
+```
+
