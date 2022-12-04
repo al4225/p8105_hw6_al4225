@@ -36,3 +36,21 @@ homicide_data = read_csv("./data/homicide-data.csv",
   janitor::clean_names() 
 homicide_data
 ```
+
+### Clean and tidy
+Create a city_state variable (e.g. “Baltimore, MD”), and a binary variable indicating whether the homicide is solved. Omit cities Dallas, TX; Phoenix, AZ; and Kansas City, MO – these don’t report victim race. Also omit Tulsa, AL – this is a data entry mistake. For this problem, limit your analysis those for whom victim_race is white or black. Be sure that victim_age is numeric.
+```{r}
+homicide = 
+  homicide_data %>%
+  mutate(
+    city_state = str_c(city, ", ", state)) %>%
+  mutate(disposition_situation = ifelse(disposition %in% c("Closed without arrest", "Open/No arrest"), "unsolved", "solved"),
+         #disposition_situation = as.factor(disposition_situation)
+         ) %>%
+
+  filter(!city_state %in% c("Dallas, TX", "Phoenix, AZ", "Kansas City, MO", "Tulsa, AL"), 
+         victim_race %in% c("White", "Black")) %>%
+  mutate(victim_age = as.numeric(victim_age))
+homicide
+```
+
