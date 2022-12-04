@@ -196,3 +196,8 @@ bwt = lm(bwt ~ momage + delwt + mrace + smoken + fincome, data = birthweight_dat
 summary(bwt)
 ```
 
+### Model table
+```{r}
+bwt %>%
+  broom::tidy()
+```
